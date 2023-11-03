@@ -1,7 +1,7 @@
 <?php
-
+//IMPORTAÇÃO DA BIBLIOTECA
 require_once __DIR__ . '/vendor/autoload.php';
-
+// VARIÁVEIS DE CRIAÇÃO DE PÁGINA PDF:
 $mpdf = new \Mpdf\Mpdf([
     'default_font' => 'arial',
     'default_font_size' => '6.5',
@@ -10,7 +10,7 @@ $mpdf = new \Mpdf\Mpdf([
     'margin_top' => 2,
     'margin_bottom' => 2,
 ]);
-
+// CABEÇALHO COMPLETO:
 $cabecalho = '<table style="width: 100%; border-spacing: 0; border-collapse: collapse;">
     <tr>
         <td style="border: 0.5px solid black; width: 40%;">
@@ -36,19 +36,31 @@ $cabecalho = '<table style="width: 100%; border-spacing: 0; border-collapse: col
 </table>';
 $mpdf->WriteHTML($cabecalho);
 
+// VARIAVEIS TRANSPORTE:
+$data_atual = '00/00/00';
+$ref_cliente = 'fulano de tal';
+$cliente = 'empresa do fulano';
+$contato_cliente = 'fulano@email.com';
+$valor_carga = 'VALOR NÃO INFORMADO';
+$peso_carga = 'PESO NÃO INFORMADO';
+$qtd_tipo_carga = 'TIPO DA CARGA';
+$criador_proposta = 'Nome completo do Criador';
+$email_criador = 'email_do_criador@email.com';
+$depto_criador = 'Dono da firma!';
+// CRIAÇÃO DA TABLE TRANSPORTE:
 $transporte = '<table style="width:100%; margin:0; padding:0; border-collapse: collapse;">
     <tr>
         <td style="width:10%; border: 1px solid black;  font-weight:bold;">
             Data:
         </td>
         <td style="width:20%; border: 0.5px solid black; border-right: none; ">
-            21/10/2023		
+            '. $data_atual .'	
         </td>
         <td style="width:30%; border: 1px solid black;  font-weight:bold;">
             Referência ACL:
         </td>
         <td style="width:40%; border: 0.5px solid black;">
-            CA 0001/23 -CLIENTE LTDA / Ref. do Cliente 	
+           '. $ref_cliente .'
         </td>
     </tr>
     <tr>
@@ -56,13 +68,13 @@ $transporte = '<table style="width:100%; margin:0; padding:0; border-collapse: c
         Cliente:
         </td>
         <td style="width:20%; border: 0.5px solid black; border-right: none; ">
-            CLIENTE LTDA		
+           '. $cliente .'	
         </td>
         <td style="width:30%; border: 1px solid black;  font-weight:bold;">
             Contato:
         </td>
         <td style="width:40%; border: 0.5px solid black;">
-            comprador@clienteltda.com.br	
+            '. $contato_cliente .'	
         </td>
         </tr>
     <tr>
@@ -70,13 +82,13 @@ $transporte = '<table style="width:100%; margin:0; padding:0; border-collapse: c
         Vlr. Carga (*):		
     </td>
     <td style="width:20%; border: 0.5px solid black; border-right: none; ">
-        VALOR NÃO INFORMADO		
+        '. $valor_carga .'
     </td>
     <td style="width:30%; border: 1px solid black;  font-weight:bold;">
         Peso Total Bruto:
     </td>
     <td style="width:40%; border: 0.5px solid black;">
-        Até 25 Tons PTB	
+       '. $peso_carga .'
     </td>
     </tr>
     <tr>
@@ -84,7 +96,7 @@ $transporte = '<table style="width:100%; margin:0; padding:0; border-collapse: c
             Qtde/Tipo:			
         </td>
         <td colspan="3" style="border: 0.5px solid black;">
-            Container de 40 RF					
+            '. $qtd_tipo_carga .'				
         </td>
     </tr>
     <tr>
@@ -92,13 +104,13 @@ $transporte = '<table style="width:100%; margin:0; padding:0; border-collapse: c
         Elaborado por:		
     </td>
     <td style="border: 0.5px solid black; border-right: none; ">
-        Marco Antonio Carvalho - marco.antonio@aclcargo.com.br			
+        '. $criador_proposta .' - '. $email_criador .'			
     </td>
     <td style="width:10%; border: 1px solid black;  font-weight:bold;">
         Depto.:
     </td>
     <td style="width:30%; border: 0.5px solid black;">
-        Diretoria Nacional de Negócios	
+        '. $depto_criador .'	
     </td>
     </tr>
 </table>
@@ -113,15 +125,22 @@ $transporte = '<table style="width:100%; margin:0; padding:0; border-collapse: c
 </table>';
 $mpdf->WriteHTML($transporte);
 
+// VARIÁVEIS CONTAINER: 
+$tipo_transporte_carga = 'TRANSPORTE RODOVIÁRIO - AÉREO - MARÍTIMO DE TIPO XYZ';
+$frete_14tons_bruto = 'R$ - ';
+$frete_25tons_bruto = 'R$ - ';
+$frete_30tons = 'R$ - '; 
+$pedagio_14tons_bruto = 'R$ - ';
+$pedagio_25tons_bruto = 'R$ - ';
+$pedagio_30tons = 'R$ - ';
+// CRIAÇÃO DA TABLE CONTAINER:
 $container = '<table style="border-collapse:colapse; width:100%;">
         <tr>
             <td  style="text-align: center; color: yellow; font-weight:bold; font-size:10px; background-color:black; border: 0.5px solid black;">
-                Transporte Rodoviário de Cargas - FCL, FTL, LCL, Carga Projeto.
+                '. $tipo_transporte_carga .'
             </td>
         </tr>
     </table>
-  
-
     <table style="width:100%; float: RIGHT; background-color:DimGray; border: 0.5px solid black;">
         <td> 
             <tr> 
@@ -149,10 +168,10 @@ $container = '<table style="border-collapse:colapse; width:100%;">
                 Container de 20` - até 14,5, tons bruto (carga + tara)			
             </td>
             <td style="border: 0.5px solid black; border-top:0; width:25%;">
-                R$ -   
+                '. $frete_14tons_bruto .' 
             </td>
             <td style="border: 0.5px solid black; border-top:0; width:25%;">
-                R$ -   
+                '. $pedagio_14tons_bruto .'  
             </td>
         </tr>
     </table>
@@ -162,10 +181,10 @@ $container = '<table style="border-collapse:colapse; width:100%;">
                 Container de 20` / 40" - até 25 tons bruto (carga + tara)				
             </td>
             <td style="border: 0.5px solid black; border-top:0;width:25%;">
-                R$ -
+            '. $frete_25tons_bruto .' 
             </td>
             <td style="border: 0.5px solid black; border-top:0;width:25%;">
-                R$ -
+            '. $pedagio_25tons_bruto .'
             </td>
         </tr>
     </table>
@@ -175,15 +194,29 @@ $container = '<table style="border-collapse:colapse; width:100%;">
                 Container de 20` / 40` de 25 até 30 tons (carga + tara)
             </td>
             <td style="border: 0.5px solid black; border-top:0; width:25%;">
-                R$ -   
+            '. $frete_30tons .'  
             </td>
             <td style="border: 0.5px solid black; border-top:0;width:25%;">
-                R$ -   
+            '. $pedagio_30tons .'   
             </td>
         </tr>
     </table>';
 $mpdf->WriteHTML($container);
 
+// VARIÁVEIS CARGA:
+$fiorino_frete = '-';
+$fiorino_pedagio = '-';
+$van_frete = '-';
+$van_pedagio = '-';
+$bau_frete = '-';
+$bau_pedagio = '-';
+$toco_frete = '-';
+$toco_pedagio = '-';
+$truck_frete = '-';
+$truck_pedagio = '-';
+$carreta_frete = '-';
+$carreta_pedagio = '-';
+// CRIAÇÃO DA TABLE CARGA:
 $carga = '<table style="width:100%; float: RIGHT; background-color:DimGray; border: 0.5px solid black;">
 <td> 
     <tr> 
@@ -215,10 +248,10 @@ $carga = '<table style="width:100%; float: RIGHT; background-color:DimGray; bord
             Fiorino 
             </td>
             <td style="border: 0.5px solid black;  border-top:0; border-left:0;">
-            R$ -   
+            R$'. $fiorino_frete .'  
             </td>
             <td style="border: 0.5px solid black;  border-top:0; border-left:0;">
-            R$ -   
+            R$'. $fiorino_pedagio .'
             </td>
         </tr>
         <tr>
@@ -229,10 +262,10 @@ $carga = '<table style="width:100%; float: RIGHT; background-color:DimGray; bord
             Van 
             </td>
             <td style="border: 0.5px solid black;  border-top:0; border-left:0;">
-            R$ -   
+            R$'. $van_frete .' 
             </td>
             <td style="border: 0.5px solid black;  border-top:0; border-left:0;">
-            R$ -   
+            R$'. $van_pedagio .' 
             </td>
         </tr>
         <tr>
@@ -243,10 +276,10 @@ $carga = '<table style="width:100%; float: RIGHT; background-color:DimGray; bord
             Baú 3/4 
             </td>
             <td style="border: 0.5px solid black;  border-top:0; border-left:0;">
-            R$ -   
+            R$'. $bau_frete .'  
             </td>
             <td style="border: 0.5px solid black;  border-top:0; border-left:0;">
-            R$ -   
+            R$'. $bau_pedagio .'  
             </td>
         </tr>
         <tr>
@@ -257,10 +290,10 @@ $carga = '<table style="width:100%; float: RIGHT; background-color:DimGray; bord
             Baú Toco 
             </td>
             <td style="border: 0.5px solid black;  border-top:0; border-left:0;">
-            R$ -   
+            R$'. $toco_frete .'   
             </td>
             <td style="border: 0.5px solid black;  border-top:0; border-left:0;">
-            R$ -   
+            R$'. $toco_pedagio .'   
             </td>
         </tr>
         <tr>
@@ -271,10 +304,10 @@ $carga = '<table style="width:100%; float: RIGHT; background-color:DimGray; bord
             Baú Truck 
             </td>
             <td style="border: 0.5px solid black;  border-top:0; border-left:0;">
-            R$ -   
+            R$'. $truck_frete .'   
             </td>
             <td style="border: 0.5px solid black;  border-top:0; border-left:0;">
-            R$ -   
+            R$'. $truck_pedagio .'   
             </td>
         </tr>
         <tr>
@@ -285,10 +318,10 @@ $carga = '<table style="width:100%; float: RIGHT; background-color:DimGray; bord
             Carreta baú 
             </td>
             <td style="border: 0.5px solid black;  border-top:0; border-left:0;">
-            R$ -   
+            R$'. $carreta_frete .'   
             </td>
             <td style="border: 0.5px solid black;  border-top:0; border-left:0;">
-            R$ -   
+            R$'. $carreta_pedagio .'   
             </td>
         </tr>
         <tr>
@@ -302,6 +335,16 @@ $carga = '<table style="width:100%; float: RIGHT; background-color:DimGray; bord
         </table>';
 $mpdf->WriteHTML($carga);
 
+// VARIÁVEIS ADICIONAIS: 
+$porc_seguro = 'ISENTO';
+$valor_gris = 'ISENTO';
+$cobranca_dta_full ='ISENTO';
+$cobranca_dta_di_expo ='ISENTO';
+$cobranca_estacionamento ='ISENTO';
+$taxa_dacte='ISENTO';
+$valor_icms='ISENTO';
+$valor_proposta='ISENTO';
+// CRIANDO TABLE ADICIONAIS:
 $adicionais = '<table style="width:100%; border-spacing: 0; border-collapse:colapse; background-color: red; ">
     <tr>
         <td style="border: 0.5px solid black; font-size: 10px; text-align:center; font-weight:bold; color:white;">
@@ -318,15 +361,15 @@ $adicionais = '<table style="width:100%; border-spacing: 0; border-collapse:cola
         Seguro  - 0,11% Cálc. s/Vlr Carga + Impostos Susp. (DTA) + Container (*) - POR OPERAÇÃO (DTA/DI)				
         </td>
         <td  style="border: 0.5px solid black;  border-top:0; border-left:0;">
-        0,11 % 
+        '. $porc_seguro .'
         </td>
     </tr>
     <tr>
         <td  style="border: 0.5px solid black;  border-top:0; border-left:0;">
-        GRIS - Cálc. s/Vlr Carga + Impostos Suspensos (DTA) + Casco do Container				
+            GRIS - Cálc. s/Vlr Carga + Impostos Suspensos (DTA) + Casco do Container				
         </td>
-        <td  style="border: 0.5px solid black; border-top:0; border-left:0; background-color:red; color:white;">
-            INCLUSO
+        <td  style="border: 0.5px solid black; border-top:0; border-left:0;">
+        '. $valor_gris .'
         </td>
     </tr>
     <tr>
@@ -336,7 +379,7 @@ $adicionais = '<table style="width:100%; border-spacing: 0; border-collapse:cola
         Cobrança de DTA FULL CONTAINER				
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0;">
-        NÃO APLICÁVEL 
+       '. $cobranca_dta_full .'
         </td>
     </tr>
     <tr>
@@ -346,7 +389,7 @@ $adicionais = '<table style="width:100%; border-spacing: 0; border-collapse:cola
         Cobrança de DTA/DI/EXPO LCL em GRU/VCP/GYN/BSB/CFN/GIG/CWB (Por Processo)				
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0;">
-        R$ 230,00 
+        '. $cobranca_dta_di_expo .'
         </td>
     </tr>
     <tr>
@@ -356,7 +399,7 @@ $adicionais = '<table style="width:100%; border-spacing: 0; border-collapse:cola
         Estacionamento em GRU/VCP/GYN/BSB/CFN/GIG/CWB por período de 03 Horas  				
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0;">
-        R$ 110,00 
+        '. $cobranca_estacionamento .'
         </td>
     </tr>
     <tr>
@@ -366,7 +409,7 @@ $adicionais = '<table style="width:100%; border-spacing: 0; border-collapse:cola
         Taxa de emissão de DACTE				
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0;">
-        ISENTO 
+        '. $taxa_dacte .' 
         </td>
     </tr>
     <tr>
@@ -376,7 +419,7 @@ $adicionais = '<table style="width:100%; border-spacing: 0; border-collapse:cola
         ICMS (7%) - Repasse Oficial			
         </td>
         <td>
-         CONF. LEGISLAÇÃO 
+         '. $valor_icms .' 
         </td>
     </tr>
     <tr style="background-color:yellow;">
@@ -386,12 +429,27 @@ $adicionais = '<table style="width:100%; border-spacing: 0; border-collapse:cola
         VALOR DA PROPOSTA (SEM ADICIONAIS SE NECESSÁRIO) 
         </td>
         <td style="border: 0.5px solid black; border-left:0;">
-        Frete+ICMS+Pedág+Seguros
+        '. $valor_proposta .'
         </td>
     </tr>
 </table>';
 $mpdf->WriteHTML($adicionais);
 
+// VARIÁVEIS ADICIONAIS SE NECESSÁRIO:
+$valor_ajudante = 'NÃO APLICÁVEL';
+$seguro_isca = 'NÃO APLICÁVEL';
+$monitoramento_isca = 'NÃO APLICÁVEL';
+$valor_escolta = 'NÃO APLICÁVEL';
+$devolucao_margem_esquerda = 'NÃO APLICÁVEL';
+$devolucao_margem_direita = 'NÃO APLICÁVEL';
+$adc_anvisa = 'NÃO APLICÁVEL';
+$adc_imo = 'NÃO APLICÁVEL';
+$carreg_expresso = 'NÃO APLICÁVEL';
+$valor_cavaloLS = 'NÃO APLICÁVEL';
+$estadia_espec = 'NÃO APLICÁVEL';
+$sobrestadia_carreg = 'NÃO APLICÁVEL';
+$sobrestadia_retirada = 'NÃO APLICÁVEL';
+// CRIANDO TABLE ADICIONAIS SE NECESSÁRIO
 $adicionais_necessario = '<table style="width:100%; border-spacing: 0; border-collapse:colapse; background-color: red; ">
     <tr>
         <td style="border: 0.5px solid black; font-size: 10px; text-align:center; font-weight:bold; color:white;">
@@ -405,7 +463,7 @@ $adicionais_necessario = '<table style="width:100%; border-spacing: 0; border-co
         Ajudantes - (por homem)					
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0; width:20%;">
-        R$ 250,00 
+        '. $valor_ajudante .'
         </td>
     </tr>
     <tr>
@@ -416,7 +474,7 @@ $adicionais_necessario = '<table style="width:100%; border-spacing: 0; border-co
         Utilização de " ISCA " - por container / veiculo (Até 3 milhões de reais)				
         </td>
         <td  style="border: 0.5px solid black;  border-top:0; border-left:0;">
-        ISENTO 
+        '. $seguro_isca .'
         </td>
     </tr>
     <tr>
@@ -424,7 +482,7 @@ $adicionais_necessario = '<table style="width:100%; border-spacing: 0; border-co
         Monitoramento de " ISCA " - por container/veiculo  (Até 3 milhões de reais)
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0;">
-        ISENTO 
+        '. $monitoramento_isca .'
         </td>
     </tr>
     <tr>
@@ -432,7 +490,7 @@ $adicionais_necessario = '<table style="width:100%; border-spacing: 0; border-co
         Escolta armada de carga (Padrão: 01 escolta armada para até 02 caminhões): 					
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0; ">
-        SOB CONSULTA 
+        '. $valor_escolta .' 
         </td>
     </tr>
     <tr>
@@ -440,7 +498,7 @@ $adicionais_necessario = '<table style="width:100%; border-spacing: 0; border-co
         Adic. de devolução/coleta/carregamento (por operaçao) no Guarujá (Margem Esquerda) ou Itaguaí					
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0; ">
-        NÃO APLICÁVEL 
+        '. $devolucao_margem_esquerda .' 
         </td>
     </tr>
     <tr>
@@ -448,7 +506,7 @@ $adicionais_necessario = '<table style="width:100%; border-spacing: 0; border-co
         Adic. de devolução/coleta/carregamento (por operação) de containers em Cubatão, São Vicente ou Praia Grande					
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0; ">
-        NÃO APLICÁVEL 
+        '. $devolucao_margem_direita .' 
         </td>
     </tr>
     <tr>
@@ -456,7 +514,7 @@ $adicionais_necessario = '<table style="width:100%; border-spacing: 0; border-co
         Adicional para cargas ANVISA (por veículo)					
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0; ">
-        NÃO APLICÁVEL 
+        '. $adc_anvisa .'
         </td>
     </tr>
     <tr>
@@ -464,7 +522,7 @@ $adicionais_necessario = '<table style="width:100%; border-spacing: 0; border-co
         Adicional para cargo IMO (Por processo)					
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0; ">
-        R$ 600,00 
+        '. $adc_imo .'
         </td>
     </tr>
     <tr>
@@ -472,7 +530,7 @@ $adicionais_necessario = '<table style="width:100%; border-spacing: 0; border-co
         Carregamento Expresso (com antecedência menor do que 24h conf. item 9 de observações gerais)					
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0; ">
-        ISENTO COMERCIALMENTE 
+        '. $carreg_expresso .'
         </td>
     </tr>
     <tr>
@@ -480,7 +538,7 @@ $adicionais_necessario = '<table style="width:100%; border-spacing: 0; border-co
         Cavalo LS (p/ container 20 e 40` de 25 Acima de 30 tons até 32 tons					
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0; ">
-        R$ 490,00 
+        '. $valor_cavaloLS .' 
         </td>
     </tr>
     <tr>
@@ -488,7 +546,7 @@ $adicionais_necessario = '<table style="width:100%; border-spacing: 0; border-co
         Estadia especial  (período de 24h) para desembaraço sobre rodas 					
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0; ">
-        NÃO APLICÁVEL 
+        '. $estadia_espec .'
         </td>
     </tr>
     <tr>
@@ -496,7 +554,7 @@ $adicionais_necessario = '<table style="width:100%; border-spacing: 0; border-co
         Sobrestadia no carregamento, desova, descarga ou estufagem  - Livre por 6hs - após será cobrado o seguinte valor a cada hora
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0; ">
-        R$ 59,00 
+        '. $sobrestadia_carreg .'
         </td>
     </tr>
     <tr>
@@ -504,12 +562,13 @@ $adicionais_necessario = '<table style="width:100%; border-spacing: 0; border-co
         Sobrestadia na retirada/devol. de container vazio devido falta de autorização para limpeza ou reparo - Livre por 4 horas - após (por hora)					
         </td>
         <td  style="border: 0.5px solid black; border-top:0; border-left:0; ">
-        NÃO APLICÁVEL 
+        '. $sobrestadia_retirada .' 
         </td>
     </tr>
 </table>';
 $mpdf->WriteHTML($adicionais_necessario);
 
+// LOGOTIPOS PARCEIROS
 $parceiros = '<table style="border: 0.5px solid black; margin:0; padding:0; text-align:center;" width="100%">
     <tr>
         <td style="margin:0; padding:0;">
@@ -530,7 +589,7 @@ $parceiros = '<table style="border: 0.5px solid black; margin:0; padding:0; text
     </tr>
 </table>';
 $mpdf->WriteHTML($parceiros);
-
+// OBSERVAÇÕES DEFAULT
 $observacoes = '<table style="border: 0.5px solid black; border-collapse:collapse; " width="100%">
     <tr>
         <td style="color:white; font-weight:bold; font-size:10px; text-align:center; background-color:Dimgrey; border: 0.5px solid black;">
@@ -562,6 +621,12 @@ $observacoes = '<table style="border: 0.5px solid black; border-collapse:collaps
 </table>';
 $mpdf->WriteHTML($observacoes);
 
+// VARIÁVEIS ASSINATURAS
+$nome_proposta = 'INSIRA O NOME DA PROPOSTA';
+
+// VARIÁVEIS PUXANDO VALORES DE CIMA: $ref_cliente, $contato_cliente, $data_atual.
+
+// CRIANDO TABLE ASSINATURAS
 $assinatura = '<div style=" border:0.5px solid black; border-top:none;">
 <table style=" text-align:center; margin-left:10%;" width="100%">
     <tr>
@@ -570,18 +635,20 @@ $assinatura = '<div style=" border:0.5px solid black; border-top:none;">
     </tr>
     <tr>
         <td style="font-weight:bold; border-top:1px solid black;">De Acordo</td>
-        <td>CA 0001/23 -CLIENTE LTDA / Ref. do Cliente</td>
+        <td>'.$nome_proposta.'/ '. $ref_cliente .'</td>
     </tr>
     <tr>
-        <td style="color:blue; text-decoration:underline;">comprador@clienteltda.com.br</td>
+        <td style="color:blue; text-decoration:underline;">'. $contato_cliente .'</td>
         <td style="font-weight:bold">Data de Emissão da Proposta</td>
     </tr>
     <tr>
         <td></td>
-        <td>01/01/1900</td>
+        <td>'. $data_atual .'</td>
     </tr>
 </table>
 </div>';
 $mpdf->WriteHTML($assinatura);
 
 $mpdf->Output();
+// Em "adicionais" e "adicionais se necessário" será necessário criar um if no backend com as possibilidades, em caso de valor 0, dependendo do caso, usar "isento" "não aplicável" "sob consulta" "conferir legislação" ou isento comercialmente. 
+// Nesses dois, em caso de valor fixo, é importante acrescentar os sinais R$ - $ - % - € que não estarão no doc por conta das possibilidades acima.
